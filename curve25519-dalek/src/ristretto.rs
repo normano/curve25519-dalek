@@ -1836,7 +1836,7 @@ mod test {
     #[test]
     #[cfg(feature = "alloc")]
     fn vartime_precomputed_vs_nonprecomputed_multiscalar() {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         let static_scalars = (0..128)
             .map(|_| Scalar::random(&mut rng))
@@ -1887,7 +1887,7 @@ mod test {
     #[test]
     #[cfg(feature = "alloc")]
     fn partial_precomputed_mixed_multiscalar_empty() {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         let n_static = 16;
         let n_dynamic = 8;
@@ -1930,7 +1930,7 @@ mod test {
     #[test]
     #[cfg(feature = "alloc")]
     fn partial_precomputed_mixed_multiscalar() {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         let n_static = 16;
         let n_dynamic = 8;
@@ -1975,7 +1975,7 @@ mod test {
     #[test]
     #[cfg(feature = "alloc")]
     fn partial_precomputed_multiscalar() {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         let n_static = 16;
 
@@ -2004,7 +2004,7 @@ mod test {
     #[test]
     #[cfg(feature = "alloc")]
     fn partial_precomputed_multiscalar_empty() {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         let n_static = 16;
 

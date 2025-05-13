@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 
-use rand::{rngs::OsRng, thread_rng};
+use rand::{rngs::OsRng, rng};
 
 use criterion::{
     criterion_main, measurement::Measurement, BatchSize, BenchmarkGroup, BenchmarkId, Criterion,
@@ -46,7 +46,7 @@ mod edwards_benches {
 
     fn vartime_double_base_scalar_mul<M: Measurement>(c: &mut BenchmarkGroup<M>) {
         c.bench_function("Variable-time aA+bB, A variable, B fixed", |bench| {
-            let mut rng = thread_rng();
+            let mut rng = rng();
             let A = EdwardsPoint::mul_base(&Scalar::random(&mut rng));
             bench.iter_batched(
                 || (Scalar::random(&mut rng), Scalar::random(&mut rng)),
@@ -78,12 +78,12 @@ mod multiscalar_benches {
     use curve25519_dalek::traits::VartimePrecomputedMultiscalarMul;
 
     fn construct_scalars(n: usize) -> Vec<Scalar> {
-        let mut rng = thread_rng();
+        let mut rng = rng();
         (0..n).map(|_| Scalar::random(&mut rng)).collect()
     }
 
     fn construct_points(n: usize) -> Vec<EdwardsPoint> {
-        let mut rng = thread_rng();
+        let mut rng = rng();
         (0..n)
             .map(|_| EdwardsPoint::mul_base(&Scalar::random(&mut rng)))
             .collect()
@@ -301,7 +301,7 @@ mod scalar_benches {
     use super::*;
 
     fn scalar_arith<M: Measurement>(c: &mut BenchmarkGroup<M>) {
-        let mut rng = thread_rng();
+        let mut rng = rng();
 
         c.bench_function("Scalar inversion", |b| {
             let s = Scalar::from(897987897u64).invert();

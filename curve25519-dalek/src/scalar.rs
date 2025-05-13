@@ -1552,7 +1552,7 @@ pub(crate) mod test {
 
     #[test]
     fn non_adjacent_form_random() {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         for _ in 0..1_000 {
             let x = Scalar::random(&mut rng);
             for w in &[5, 6, 7, 8] {
@@ -2046,7 +2046,7 @@ pub(crate) mod test {
     // was reduced and b was clamped and unreduced. This checks that that was always well-defined.
     #[test]
     fn test_mul_reduction_invariance() {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         for _ in 0..10 {
             // Also define c that's clamped. We'll make sure that clamping doesn't affect
