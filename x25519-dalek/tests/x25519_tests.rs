@@ -1,3 +1,5 @@
+extern crate xs_x25519_dalek as x25519_dalek;
+
 use curve25519_dalek::edwards::EdwardsPoint;
 
 use x25519_dalek::*;
@@ -181,29 +183,30 @@ fn rfc7748_ladder_test2() {
 mod rand_core {
 
     use super::*;
-    use ::rand_core::OsRng;
+    use rand::rngs::StdRng;
+    use ::rand_core::SeedableRng;
 
     #[test]
     fn ephemeral_from_rng() {
         #[allow(deprecated)]
-        EphemeralSecret::new(OsRng);
-        EphemeralSecret::random_from_rng(OsRng);
+        EphemeralSecret::new(StdRng::from_rng(&mut rand::rng()));
+        EphemeralSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
     }
 
     #[test]
     #[cfg(feature = "reusable_secrets")]
     fn reusable_from_rng() {
         #[allow(deprecated)]
-        ReusableSecret::new(OsRng);
-        ReusableSecret::random_from_rng(OsRng);
+        ReusableSecret::new(StdRng::from_rng(&mut rand::rng()));
+        ReusableSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
     }
 
     #[test]
     #[cfg(feature = "static_secrets")]
     fn static_from_rng() {
         #[allow(deprecated)]
-        StaticSecret::new(OsRng);
-        StaticSecret::random_from_rng(OsRng);
+        StaticSecret::new(StdRng::from_rng(&mut rand::rng()));
+        StaticSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
     }
 }
 

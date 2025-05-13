@@ -1622,6 +1622,7 @@ impl CofactorGroup for EdwardsPoint {
 mod test {
     use super::*;
 
+    use rand::{rngs::StdRng, SeedableRng};
     // If `group` is set, then this is already imported in super
     #[cfg(not(feature = "group"))]
     use rand_core::RngCore;
@@ -1913,7 +1914,7 @@ mod test {
     /// Check that mul_base_clamped and mul_clamped agree
     #[test]
     fn mul_base_clamped() {
-        let mut csprng = rand_core::OsRng;
+        let mut csprng = StdRng::from_rng(&mut rand::rng());
 
         // Make a random curve point in the curve. Give it torsion to make things interesting.
         #[cfg(feature = "precomputed-tables")]

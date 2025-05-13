@@ -1,3 +1,5 @@
+extern crate xs_ed25519_dalek as ed25519_dalek;
+
 use ed25519::signature::Verifier;
 use ed25519_dalek::{Signature, VerifyingKey};
 

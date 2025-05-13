@@ -131,7 +131,7 @@ use group::ff::{FieldBits, PrimeFieldBits};
 use rand_core::RngCore;
 
 #[cfg(any(test, feature = "rand_core"))]
-use rand_core::CryptoRngCore;
+use rand_core::CryptoRng;
 
 #[cfg(feature = "digest")]
 use digest::generic_array::typenum::U64;
@@ -591,10 +591,10 @@ impl Scalar {
     ///
     /// use rand_core::OsRng;
     ///
-    /// let mut csprng = OsRng;
+    /// let mut csprng = StdRng::from_rng(&mut rand::rng());
     /// let a: Scalar = Scalar::random(&mut csprng);
     /// # }
-    pub fn random<R: CryptoRngCore + ?Sized>(rng: &mut R) -> Self {
+    pub fn random<R: CryptoRng + ?Sized + rand_core::RngCore>(rng: &mut R) -> Self {
         let mut scalar_bytes = [0u8; 64];
         rng.fill_bytes(&mut scalar_bytes);
         Scalar::from_bytes_mod_order_wide(&scalar_bytes)

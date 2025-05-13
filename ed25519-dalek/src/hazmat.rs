@@ -208,7 +208,7 @@ mod test {
 
     use super::*;
 
-    use rand::{rngs::OsRng, CryptoRng, RngCore};
+    use rand::{rngs::{OsRng, StdRng}, CryptoRng, RngCore, SeedableRng};
 
     // Pick distinct, non-spec 512-bit hash functions for message and sig-context hashing
     type CtxDigest = blake2::Blake2b512;
@@ -228,7 +228,7 @@ mod test {
     #[test]
     fn sign_verify_nonspec() {
         // Generate the keypair
-        let rng = OsRng;
+        let rng = StdRng::from_rng(&mut rand::rng());
         let esk = ExpandedSecretKey::random(rng);
         let vk = VerifyingKey::from(&esk);
 

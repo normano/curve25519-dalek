@@ -1,5 +1,7 @@
 //! Tests for converting Ed25519 keys into X25519 (Montgomery form) keys.
 
+extern crate xs_ed25519_dalek as ed25519_dalek;
+
 use curve25519_dalek::scalar::{clamp_integer, Scalar};
 use ed25519_dalek::SigningKey;
 use hex_literal::hex;

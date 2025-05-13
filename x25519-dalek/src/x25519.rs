@@ -100,7 +100,7 @@ impl EphemeralSecret {
     /// Generate a new [`EphemeralSecret`].
     #[cfg(feature = "getrandom")]
     pub fn random() -> Self {
-        Self::random_from_rng(rand_core::OsRng)
+        Self::random_from_rng(StdRng::from_rng(&mut rand::rng()))
     }
 }
 
@@ -162,7 +162,7 @@ impl ReusableSecret {
     /// Generate a new [`ReusableSecret`].
     #[cfg(feature = "getrandom")]
     pub fn random() -> Self {
-        Self::random_from_rng(rand_core::OsRng)
+        Self::random_from_rng(StdRng::from_rng(&mut rand::rng()))
     }
 }
 
@@ -222,7 +222,7 @@ impl StaticSecret {
     /// Generate a new [`StaticSecret`].
     #[cfg(feature = "getrandom")]
     pub fn random() -> Self {
-        Self::random_from_rng(rand_core::OsRng)
+        Self::random_from_rng(StdRng::from_rng(&mut rand::rng()))
     }
 
     /// Extract this key's bytes for serialization.

@@ -51,11 +51,10 @@ loudly meows `bob_public` back to Alice.  Alice now computes her
 shared secret with Bob by doing:
 
 ```rust
-# use rand_core::OsRng;
 # use x25519_dalek::{EphemeralSecret, PublicKey};
-# let alice_secret = EphemeralSecret::random_from_rng(OsRng);
+# let alice_secret = EphemeralSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
 # let alice_public = PublicKey::from(&alice_secret);
-# let bob_secret = EphemeralSecret::random_from_rng(OsRng);
+# let bob_secret = EphemeralSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
 # let bob_public = PublicKey::from(&bob_secret);
 let alice_shared_secret = alice_secret.diffie_hellman(&bob_public);
 ```
@@ -63,11 +62,10 @@ let alice_shared_secret = alice_secret.diffie_hellman(&bob_public);
 Similarly, Bob computes a shared secret by doing:
 
 ```rust
-# use rand_core::OsRng;
 # use x25519_dalek::{EphemeralSecret, PublicKey};
-# let alice_secret = EphemeralSecret::random_from_rng(OsRng);
+# let alice_secret = EphemeralSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
 # let alice_public = PublicKey::from(&alice_secret);
-# let bob_secret = EphemeralSecret::random_from_rng(OsRng);
+# let bob_secret = EphemeralSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
 # let bob_public = PublicKey::from(&bob_secret);
 let bob_shared_secret = bob_secret.diffie_hellman(&alice_public);
 ```
@@ -75,11 +73,10 @@ let bob_shared_secret = bob_secret.diffie_hellman(&alice_public);
 These secrets are the same:
 
 ```rust
-# use rand_core::OsRng;
 # use x25519_dalek::{EphemeralSecret, PublicKey};
-# let alice_secret = EphemeralSecret::random_from_rng(OsRng);
+# let alice_secret = EphemeralSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
 # let alice_public = PublicKey::from(&alice_secret);
-# let bob_secret = EphemeralSecret::random_from_rng(OsRng);
+# let bob_secret = EphemeralSecret::random_from_rng(StdRng::from_rng(&mut rand::rng()));
 # let bob_public = PublicKey::from(&bob_secret);
 # let alice_shared_secret = alice_secret.diffie_hellman(&bob_public);
 # let bob_shared_secret = bob_secret.diffie_hellman(&alice_public);

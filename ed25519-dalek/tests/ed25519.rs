@@ -11,6 +11,8 @@
 
 #![allow(clippy::items_after_test_module)]
 
+extern crate xs_ed25519_dalek as ed25519_dalek;
+
 use ed25519_dalek::*;
 
 use hex::FromHex;
@@ -28,6 +30,7 @@ mod vectors {
         traits::IsIdentity,
     };
 
+    use rand::{rngs::StdRng, SeedableRng};
     #[cfg(not(feature = "digest"))]
     use sha2::{digest::Digest, Sha512};
 
@@ -179,8 +182,9 @@ mod vectors {
     const WEAK_PUBKEY: CompressedEdwardsY = CompressedEdwardsY(EIGHT_TORSION_4);
 
     // Pick a random Scalar
+    // #[cfg(feature = "rand_core")]
     fn non_null_scalar() -> Scalar {
-        let mut rng = rand::rngs::OsRng;
+        let mut rng = StdRng::from_rng(&mut rand::rng());
         let mut s_candidate = Scalar::random(&mut rng);
         while s_candidate == Scalar::ZERO {
             s_candidate = Scalar::random(&mut rng);
@@ -198,6 +202,7 @@ mod vectors {
     // constructing a pubkey-signature pair that verifies with respect to two distinct messages.
     // This should be accepted by verify(), but rejected by verify_strict().
     #[test]
+    #[cfg(feature = "rand_core")]
     fn repudiation() {
         let message1 = b"Send 100 USD to Alice";
         let message2 = b"Send 100000 USD to Alice";
@@ -288,7 +293,7 @@ mod vectors {
 #[cfg(feature = "rand_core")]
 mod integrations {
     use super::*;
-    use rand::rngs::OsRng;
+    use rand::{rngs::{OsRng, StdRng}, SeedableRng};
     use std::collections::HashMap;
 
     #[test]
@@ -298,7 +303,7 @@ mod integrations {
         let good: &[u8] = "test message".as_bytes();
         let bad: &[u8] = "wrong message".as_bytes();
 
-        let mut csprng = OsRng;
+        let mut csprng = StdRng::from_rng(&mut rand::rng());
 
         let signing_key: SigningKey = SigningKey::generate(&mut csprng);
         let verifying_key = signing_key.verifying_key();
@@ -434,7 +439,7 @@ mod integrations {
 
     #[test]
     fn public_key_hash_trait_check() {
-        let mut csprng = OsRng {};
+        let mut csprng = StdRng::from_rng(&mut rand::rng());
         let secret: SigningKey = SigningKey::generate(&mut csprng);
         let public_from_secret: VerifyingKey = (&secret).into();
 
@@ -461,7 +466,7 @@ mod integrations {
 
     #[test]
     fn montgomery_and_edwards_conversion() {
-        let mut rng = rand::rngs::OsRng;
+        let mut rng = StdRng::from_rng(&mut rand::rng());
         let signing_key = SigningKey::generate(&mut rng);
         let verifying_key = signing_key.verifying_key();
 
